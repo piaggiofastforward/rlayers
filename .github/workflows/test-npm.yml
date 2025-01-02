@@ -3,11 +3,8 @@ name: Test npm package
 on:
     workflow_dispatch:
         inputs:
-            rlayers:
+            version:
                 description: 'Package version to test'
-                required: true
-            ol:
-                description: 'OL version to use'
                 required: true
 
 jobs:
@@ -19,29 +16,49 @@ jobs:
                 platforms: [ubuntu-latest, windows-latest, macos-latest]
 
         steps:
-            - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
-            - name: Use Node.js 20.x
+            - name: Use Node.js 16.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 16.x
             - name: Set up the unit tests
               run: |
-                  curl https://codeload.github.com/mmomtchev/rlayers/zip/refs/tags/v${{ github.event.inputs.rlayers }} --output repo.zip
+                  curl https://codeload.github.com/mmomtchev/rlayers/zip/refs/tags/v${{ github.event.inputs.version }} --output repo.zip
                   unzip repo.zip
-                  mv rlayers-${{ github.event.inputs.rlayers }}/package.json .
-                  mv rlayers-${{ github.event.inputs.rlayers }}/tsconfig*.json .
-                  mv rlayers-${{ github.event.inputs.rlayers }}/jest.standalone.config.js jest.config.js
-                  curl https://raw.githubusercontent.com/mmomtchev/rlayers/main/jest.standalone.config.js --output jest.config.js
-                  mv rlayers-${{ github.event.inputs.rlayers }}/examples .
-                  mv rlayers-${{ github.event.inputs.rlayers }}/test .
+                  mv rlayers-${{ github.event.inputs.version }}/package.json .
+                  mv rlayers-${{ github.event.inputs.version }}/tsconfig*.json .
+                  mv rlayers-${{ github.event.inputs.version }}/jest.standalone.config.js jest.config.js
+                  mv rlayers-${{ github.event.inputs.version }}/examples .
+                  mv rlayers-${{ github.event.inputs.version }}/test .
             - name: Install from npm
-              run: npm install rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+              run: npm install --force rlayers@${{ github.event.inputs.version }}
             - name: Run the unit tests
               run: |
                   rm package.json
                   npx jest -c jest.config.js
-              env:
-                  STADIA_MAPS_API_KEY: ${{ secrets.STADIA_MAPS_API_KEY }}
+
+    cra_js:
+        runs-on: ubuntu-latest
+
+        steps:
+            - run: git clone https://github.com/mmomtchev/rlayers-npm-tests.git
+            - name: Run bundler
+              run: |
+                  cd rlayers-npm-tests/cra-js
+                  npm install
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm run build
+
+    cra_ts:
+        runs-on: ubuntu-latest
+
+        steps:
+            - run: git clone https://github.com/mmomtchev/rlayers-npm-tests.git
+            - name: Run bundler
+              run: |
+                  cd rlayers-npm-tests/cra-ts
+                  npm install
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm run build
 
     cra_react18_js:
         runs-on: ubuntu-latest
@@ -52,7 +69,7 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-js
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     cra_react18_ts:
@@ -64,7 +81,7 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-ts
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     cra_react18_1_js:
@@ -76,7 +93,7 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-1-js
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     cra_react18_1_ts:
@@ -88,7 +105,7 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-1-ts
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     cra_react18_2_js:
@@ -100,7 +117,7 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-2-js
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     cra_react18_2_ts:
@@ -112,35 +129,23 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-2-ts
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
-                  npm run build
-
-    cra_react18_3_ts:
-        runs-on: ubuntu-latest
-
-        steps:
-            - run: git clone https://github.com/mmomtchev/rlayers-npm-tests.git
-            - name: Run bundler
-              run: |
-                  cd rlayers-npm-tests/cra-react18-3-ts
-                  npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     nextjs12:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Use Node.js 20.x
+            - name: Use Node.js 16.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 16.x
             - run: git clone https://github.com/mmomtchev/rlayers-npm-tests.git
             - name: Run bundler
               run: |
                   cd rlayers-npm-tests/next12
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     nextjs13:
@@ -152,7 +157,7 @@ jobs:
               run: |
                   cd rlayers-npm-tests/next13
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
 
     nextjs13-esm:
@@ -164,17 +169,5 @@ jobs:
               run: |
                   cd rlayers-npm-tests/next13-esm
                   npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
-                  npm run build
-
-    nextjs14-esm:
-        runs-on: ubuntu-latest
-
-        steps:
-            - run: git clone https://github.com/mmomtchev/rlayers-npm-tests.git
-            - name: Run bundler
-              run: |
-                  cd rlayers-npm-tests/next14-esm
-                  npm install
-                  npm i rlayers@${{ github.event.inputs.rlayers }} ol@${{ github.event.inputs.ol }}
+                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build

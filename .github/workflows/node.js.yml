@@ -20,14 +20,85 @@ jobs:
         steps:
             - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
             - uses: actions/checkout@v4
-            - name: Use Node.js 20.x
+            - name: Use Node.js 18.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 18.x
             - run: npm i
-            - run: npm run lint
             - run: npm run build --if-present
             - run: npm test
+
+    ol-versions:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                ol-version:
+                    - '9.2.2'
+
+        steps:
+            - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
+            - uses: actions/checkout@v4
+            - name: Use Node.js 18.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18.x
+            - run: npm i
+            - run: npm i --force ol@${{ matrix.ol-version }}
+            - run: npm run build --if-present
+            - run: npm test
+
+    react-16-8:
+        runs-on: ubuntu-latest
+
+        steps:
+            - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
+            - uses: actions/checkout@v4
+            - name: Use Node.js 18.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18.x
+            - run: |
+                  npm i react@16.8 react-dom@16.8 react-test-renderer@16.8 @types/react@16 @types/react-dom@16 @testing-library/react@11
+            - run: npm i
+            - run: tsc
+            - run: npm test
+            - run: npm run build:examples
+
+    react-16-14:
+        runs-on: ubuntu-latest
+
+        steps:
+            - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
+            - uses: actions/checkout@v4
+            - name: Use Node.js 18.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18.x
+            - run: |
+                  npm i react@16.14 react-dom@16.14 react-test-renderer@16.14 @types/react@16 @types/react-dom@16 @testing-library/react@11
+            - run: npm i
+            - run: tsc
+            - run: npm test
+            - run: npm run build:examples
+
+    react-17:
+        runs-on: ubuntu-latest
+
+        steps:
+            - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
+            - uses: actions/checkout@v4
+            - name: Use Node.js 18.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18.x
+            - run: |
+                  npm i react@17 react-dom@17 react-test-renderer@17 @types/react@17 @types/react-dom@17 @testing-library/react@11
+            - run: npm i
+            - run: tsc
+            - run: npm test
+            - run: npm run build:examples
 
     react-18:
         runs-on: ubuntu-latest
@@ -35,10 +106,10 @@ jobs:
         steps:
             - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
             - uses: actions/checkout@v4
-            - name: Use Node.js 20.x
+            - name: Use Node.js 18.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 18.x
             - run: |
                   npm i react@18 react-dom@18 react-test-renderer@18 @types/react@18 @types/react-dom@18 @testing-library/react@13
             - run: npm i
@@ -52,10 +123,10 @@ jobs:
         steps:
             - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
             - uses: actions/checkout@v4
-            - name: Use Node.js 20.x
+            - name: Use Node.js 18.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 18.x
             - run: |
                   npm i react@18.1 react-dom@18.1 react-test-renderer@18.1 @types/react@18 @types/react-dom@18 @testing-library/react@13
             - run: npm i
@@ -69,10 +140,10 @@ jobs:
         steps:
             - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
             - uses: actions/checkout@v4
-            - name: Use Node.js 20.x
+            - name: Use Node.js 18.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 18.x
             - run: |
                   npm i react@18.2 react-dom@18.2 react-test-renderer@18.2 @types/react@18 @types/react-dom@18 @testing-library/react@13
             - run: npm i
@@ -86,10 +157,10 @@ jobs:
         steps:
             - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
             - uses: actions/checkout@v4
-            - name: Use Node.js 20.x
+            - name: Use Node.js 18.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 18.x
             - run: |
                   npm i react@18.3.1 react-dom@18.3.1 react-test-renderer@18.3.1 @types/react@18.3.2 @types/react-dom@18.0.5 @testing-library/react@15.0.7
             - run: npm i
@@ -103,10 +174,10 @@ jobs:
         steps:
             - run: echo "::add-mask::${{ secrets.STADIA_MAPS_API_KEY }}"
             - uses: actions/checkout@v4
-            - name: Use Node.js 20.x
+            - name: Use Node.js 18.x
               uses: actions/setup-node@v4
               with:
-                  node-version: 20.x
+                  node-version: 18.x
             - run: npm i
             - run: npm run test
               env:

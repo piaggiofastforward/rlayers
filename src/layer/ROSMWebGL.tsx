@@ -1,9 +1,7 @@
 import React from 'react';
-import {ImageTile, Map} from 'ol';
-import DataTile from 'ol/DataTile';
+import {Map} from 'ol';
 import {WebGLTile as LayerTileWebGL} from 'ol/layer';
 import {OSM} from 'ol/source';
-import {DataTile as SourceDataTile, ImageTile as SourceImageTile} from 'ol/source';
 
 import {RContextType} from '../context';
 import {default as RLayerWebGL, RLayerWebGLProps} from './RLayerWebGL';
@@ -11,7 +9,7 @@ import {default as RLayerWebGL, RLayerWebGLProps} from './RLayerWebGL';
 /**
  * @propsfor ROSMWebGL
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ROSMWebGLProps extends RLayerWebGLProps {}
 
 /**
@@ -19,16 +17,13 @@ export interface ROSMWebGLProps extends RLayerWebGLProps {}
  *
  * Requires an `RMap` context
  */
-export default class ROSMWebGL extends RLayerWebGL<ROSMWebGLProps, ImageTile> {
-    source: SourceDataTile<ImageTile>;
+export default class ROSMWebGL extends RLayerWebGL<ROSMWebGLProps> {
+    source: OSM;
 
     constructor(props: Readonly<ROSMWebGLProps>, context?: React.Context<RContextType>) {
         super(props, context);
-        this.source = new OSM() as unknown as SourceDataTile<ImageTile>;
-        this.ol = new LayerTileWebGL({
-            source: this.source as unknown as SourceDataTile<DataTile>,
-            cacheSize: props.cacheSize
-        });
+        this.source = new OSM();
+        this.ol = new LayerTileWebGL({source: this.source, cacheSize: props.cacheSize});
         this.eventSources = [this.ol, this.source];
     }
 

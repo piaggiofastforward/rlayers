@@ -1,5 +1,5 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import {Feature} from 'ol';
 import Style from 'ol/style/Style';
 import Geometry from 'ol/geom/Geometry';
@@ -33,17 +33,17 @@ export default class RStyleArray extends RStyle {
         if (this.props.render) {
             const element = this.props.render(f, r);
             React.Children.map(element.props.children, (child) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+                // eslint-disable-next-line @typescript-eslint/ban-types
                 if (React.isValidElement(child) && (child.type as Function) !== RStyle)
                     throw new TypeError('An RStyleArray should contain only RStyle elements');
             });
             const styleArray = [];
-            const reactElement = (
+            const render = (
                 <RContext.Provider value={{...this.context, styleArray}}>
                     {element.props.children}
                 </RContext.Provider>
             );
-            createRoot(document.createElement('div')).render(reactElement);
+            ReactDOM.render(render, document.createElement('div'));
             return styleArray as Style[];
         }
         return this.ol as Style[];
@@ -55,7 +55,7 @@ export default class RStyleArray extends RStyle {
 
     render(): JSX.Element {
         React.Children.map(this.props.children, (child) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+            // eslint-disable-next-line @typescript-eslint/ban-types
             if (React.isValidElement(child) && (child.type as Function) !== RStyle)
                 throw new TypeError('An RStyleArray should contain only RStyle elements');
         });

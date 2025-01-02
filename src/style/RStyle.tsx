@@ -1,5 +1,5 @@
 import React, {PropsWithChildren} from 'react';
-import {createRoot} from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import {LRUCache} from 'lru-cache';
 import {Map, Feature} from 'ol';
 import Style, {StyleLike} from 'ol/style/Style';
@@ -7,7 +7,6 @@ import Geometry from 'ol/geom/Geometry';
 
 import {RContext, RContextType} from '../context';
 import debug from '../debug';
-import {flushSync} from 'react-dom';
 
 /**
  * @propsfor RStyle
@@ -72,17 +71,12 @@ export default class RStyle extends React.PureComponent<RStyleProps, Record<stri
             if (style) return style;
         }
         const style = new Style({zIndex: this.props.zIndex});
-        const reactElement = (
+        const render = (
             <RContext.Provider value={{...this.context, style}}>
                 {this.props.render(f, r)}
             </RContext.Provider>
         );
-        const root = createRoot(document.createElement('div'));
-        // React 18 renders asynchronously while OpenLayers does not
-        // support an asynchronous StyleFunction
-        flushSync(() => {
-            root.render(reactElement);
-        });
+        ReactDOM.render(render, document.createElement('div'));
         if (this.cache) this.cache.set(hash, style);
         return style;
     };

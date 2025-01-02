@@ -28,7 +28,7 @@ export interface RLayerClusterProps extends RLayerBaseVectorProps<Feature<Geomet
  * Not compatible with a vector layer context for JSX-declared RFeatures
  */
 export default class RLayerCluster extends RLayerBaseVector<Feature<Geometry>, RLayerClusterProps> {
-    ol: LayerVector<SourceVector<Feature<Geometry>>, Feature<Geometry>>;
+    ol: LayerVector<Feature<Geometry>>;
     source: SourceCluster<Feature<Geometry>>;
     cluster: SourceVector<Feature<Geometry>>;
 
@@ -45,7 +45,7 @@ export default class RLayerCluster extends RLayerBaseVector<Feature<Geometry>, R
             source: this.cluster,
             distance: this.props.distance
         });
-        this.ol = new LayerVector<SourceVector<Feature<Geometry>>, Feature<Geometry>>({
+        this.ol = new LayerVector<Feature<Geometry>>({
             ...props,
             source: this.source,
             style: RStyle.getStyle(props.style)

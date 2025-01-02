@@ -1,7 +1,5 @@
 # rlayers - React Components for OpenLayers 6+
 
-**Update: since Oct 24 I am homeless and living in my van. I lost access to most of my computer hardware. The eviction from my home has been timed for maximum effect as I was not present when it happened. I have only a single set of clothes and no means to get anything else. Please, if you use my software, consider asking everyone in the geospatial community if they are taking part in this extortion and why.**
-
 ![logo](https://raw.githubusercontent.com/mmomtchev/rlayers/master/rlayers-logo.svg)
 
 [![License: ISC](https://img.shields.io/github/license/mmomtchev/rlayers)](https://github.com/mmomtchev/rlayers/blob/master/LICENSE)
@@ -51,7 +49,7 @@ npm --save install rlayers ol react react-dom
 
 _OpenLayers_ and _React_ are peer dependencies and should be installed separately.
 
-_React_ is supported from version 16.8.0 with `rlayers@2.x` and from version 18 with `rlayers@3.x`.
+_React_ is supported from version 16.8.0.
 
 ---
 
@@ -66,9 +64,8 @@ _React_ is supported from version 16.8.0 with `rlayers@2.x` and from version 18 
 | 2.0 (_obsolete_) | 6.10, 6.11, 6.12, 6.13, 6.14, 6.14.1, 6.15, 6.15.1, 7.0.0, 7.1.0, 7.2.0, 7.2.2, 7.3.0, 7.4.0, 7.5.1                                    | 16.8, 16.14, 17.0.2, 18.0.0, 18.1.0, 18.2.0         |
 | 2.1 (_obsolete_) | 6.10, 6.11, 6.12, 6.13, 6.14, 6.14.1, 6.15, 6.15.1, 7.0.0, 7.1.0, 7.2.0, 7.2.2, 7.3.0, 7.4.0, 7.5.1, 8.0.0, 8.1.0                      | 16.8, 16.14, 17.0.2, 18.0.0, 18.1.0, 18.2.0         |
 | 2.2 (_obsolete_) | 6.10, 6.11, 6.12, 6.13, 6.14, 6.14.1, 6.15, 6.15.1, 7.0.0, 7.1.0, 7.2.0, 7.2.2, 7.3.0, 7.4.0, 7.5.1, 8.0.0, 8.1.0, 8.2.0               | 16.8, 16.14, 17.0.2, 18.0.0, 18.1.0, 18.2.0         |
-| 2.3              | 6.10, 6.11, 6.12, 6.13, 6.14, 6.14.1, 6.15, 6.15.1, 7.0.0, 7.1.0, 7.2.0, 7.2.2, 7.3.0, 7.4.0, 7.5.1, 8.0.0, 8.1.0, 8.2.0, 9.0.0, 9.1.0 | 16.8, 16.14, 17.0.2, 18.0.0, 18.1.0, 18.2.0, 18.3.1 |
-| 3.0              | 9.2.2                                                                                                                                  | 18.0.0, 18.1.0, 18.2.0, 18.3.1                      |
-| 3.1 (`@latest`)  | 10.0.0                                                                                                                                 | 18.0.0, 18.1.0, 18.2.0, 18.3.1                      |
+| 2.3 `(@latest)`  | 6.10, 6.11, 6.12, 6.13, 6.14, 6.14.1, 6.15, 6.15.1, 7.0.0, 7.1.0, 7.2.0, 7.2.2, 7.3.0, 7.4.0, 7.5.1, 8.0.0, 8.1.0, 8.2.0, 9.0.0, 9.1.0 | 16.8, 16.14, 17.0.2, 18.0.0, 18.1.0, 18.2.0, 18.3.1 |
+| 3.0 (`@next`)    | 9.2.2                                                                                                                                  | 16.8, 16.14, 17.0.2, 18.0.0, 18.1.0, 18.2.0, 18.3.1 |
 
 ---
 
@@ -235,6 +232,23 @@ Also, when searching for features listening on `pointermove`/`pointerenter`/`poi
 The examples can be found here:
 <https://mmomtchev.github.io/rlayers/>
 
+## Next.js
+
+When using with Next.js, you have to install `next-transpile-modules`:
+
+```shell
+npm install --save next-transpile-modules
+```
+
+And then create the following `next.config.js`:
+
+```js
+const withTranspile = require('next-transpile-modules')(['ol', 'rlayers']);
+module.exports = withTranspile({experimental: {esmExternals: 'loose'}});
+```
+
+It is known to work with Next.js 10 to Next.js 13. You can check [`rlayers-npm-tests`](https://github.com/mmomtchev/rlayers-npm-tests) repository for examples for working configurations.
+
 ### Server-Side Rendering
 
 Server-side rendering of map components is difficult - there is still no comprehensive solution. Besides the obvious complexities of rendering on canvas outside the browser, one of the major issues is that server-side rendering runs before the browser layout flowing - and thus must work independent of layout and resolution.
@@ -251,15 +265,7 @@ Pushing the initial tiles is also an option:
 Currently, server-side rendering of raster layers on fixed map sizes has reached POC status and an online demo is accessible at https://rlayers-ssr.meteo.guru/.
 The code can be found in the `ssr` branch of this project. The `next.js` project can be found at <https://github.com/mmomtchev/rlayers-ssr-demo.git>. _This is still not a user-friendly, install-and-run project._ Take a look at `pages/index.js` if you want see how it is meant to be used.
 
-As of March 2022, SSR support is stale and I am not working on it anymore. Should there be any interest in this feature, I could consider adding it.
-
-### Next.js
-
-As currently `rlayers` is an entirely client-side component without SSR support, using it with Next.js requires some special configuration that has tendency to change from version to version.
-
-`rlayers` has been found to work with all recent Next.js versions, including Next.js 14 in `app` mode.
-
-Check [`rlayers-npm-tests`](https://github.com/mmomtchev/rlayers-npm-tests) for working examples.
+As of March 2022, SSR support is stale and I am not working on it anymore.
 
 ### Google Maps API Support
 
