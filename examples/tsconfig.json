@@ -10,6 +10,7 @@
             "dom.iterable"
         ],
         "declaration": true,
+        "declarationMap": true,
         "removeComments": false,
         "allowSyntheticDefaultImports": true,
         "jsx": "react",
@@ -20,12 +21,8 @@
         "moduleResolution": "node",
         "downlevelIteration": true,
         "paths": {
-            "rlayers": [
-                "../src"
-            ],
-            "rlayers/*": [
-                "../src/*"
-            ],
+            "rlayers": ["../src"],
+            "rlayers/*": ["../src/*"],
         }
     },
     "include": [

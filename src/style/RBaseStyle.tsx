@@ -6,7 +6,7 @@ import debug from '../debug';
 /**
  * @propsfor RBaseStyle
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RBaseStyleProps extends PropsWithChildren<unknown> {}
 
 /**

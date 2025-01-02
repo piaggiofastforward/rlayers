@@ -8,7 +8,7 @@ import debug from '../debug';
 /**
  * @propsfor RBackground
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RBackgroundProps extends RBaseStyleProps {}
 
 type Background = {
