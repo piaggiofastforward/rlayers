@@ -1,8 +1,9 @@
 import React from 'react';
-import ReactDOMClient from 'react-dom/client';
+import ReactDOM from 'react-dom';
 
 import debug from 'rlayers/debug';
 
 import App from './App';
 
-ReactDOMClient.createRoot(document.getElementById('root')).render(<App />);
+debug('React 16/17 mode');
+ReactDOM.render(<App />, document.getElementById('root'));

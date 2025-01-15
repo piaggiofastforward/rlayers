@@ -2,25 +2,16 @@ module.exports = {
     testEnvironment: 'jsdom',
     roots: ['<rootDir>/test'],
     transform: {
-        '\\.tsx?$': [
+        '^.+.(t|j)sx?$': [
             'ts-jest',
             {
                 tsconfig: {
                     outDir: './.ts-jest'
                 }
             }
-        ],
-        '\\.jsx?$': [
-            'babel-jest',
-            {
-                presets: ['@babel/preset-env'],
-                plugins: ['@babel/plugin-transform-modules-commonjs']
-            }
         ]
     },
-    transformIgnorePatterns: [
-        '/node_modules/(?!(ol|txml|geotiff|quick-lru|color-|rbush|earcut|pbf|quickselect))'
-    ],
+    transformIgnorePatterns: ['/node_modules/(?!(ol|txml|geotiff|quick-lru|color-))'],
     moduleNameMapper: {
         '^rlayers$': '<rootDir>/src',
         '^rlayers/(.*)$': '<rootDir>/src/$1',

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {fromLonLat} from 'ol/proj';
-import {MapboxVectorLayer as VectorMapbox} from 'ol-mapbox-style';
+import {MapboxVector as VectorMapbox} from 'ol/layer';
 
 import {RMap, RLayer, RLayerProps, RContextType} from 'rlayers';
 
