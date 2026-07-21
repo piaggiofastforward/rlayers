@@ -7,6 +7,10 @@ on:
                 description: 'Package version to test'
                 required: true
 
+permissions:
+    contents: read
+    packages: read
+
 jobs:
     test_npm_package:
         runs-on: ${{ matrix.platforms }}
@@ -20,17 +24,21 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 16.x
+                                    registry-url: https://npm.pkg.github.com
+                                    scope: '@piaggiofastforward'
             - name: Set up the unit tests
               run: |
-                  curl https://codeload.github.com/mmomtchev/rlayers/zip/refs/tags/v${{ github.event.inputs.version }} --output repo.zip
+                                    curl https://codeload.github.com/${{ github.repository }}/zip/refs/tags/v${{ github.event.inputs.version }} --output repo.zip
                   unzip repo.zip
-                  mv rlayers-${{ github.event.inputs.version }}/package.json .
-                  mv rlayers-${{ github.event.inputs.version }}/tsconfig*.json .
-                  mv rlayers-${{ github.event.inputs.version }}/jest.standalone.config.js jest.config.js
-                  mv rlayers-${{ github.event.inputs.version }}/examples .
-                  mv rlayers-${{ github.event.inputs.version }}/test .
+                                    mv ${{ github.event.repository.name }}-${{ github.event.inputs.version }}/package.json .
+                                    mv ${{ github.event.repository.name }}-${{ github.event.inputs.version }}/tsconfig*.json .
+                                    mv ${{ github.event.repository.name }}-${{ github.event.inputs.version }}/jest.standalone.config.js jest.config.js
+                                    mv ${{ github.event.repository.name }}-${{ github.event.inputs.version }}/examples .
+                                    mv ${{ github.event.repository.name }}-${{ github.event.inputs.version }}/test .
             - name: Install from npm
-              run: npm install --force rlayers@${{ github.event.inputs.version }}
+                            run: npm install --force rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }}
+                            env:
+                                    NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Run the unit tests
               run: |
                   rm package.json
@@ -45,8 +53,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-js
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cra_ts:
         runs-on: ubuntu-latest
@@ -57,8 +67,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-ts
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cra_react18_js:
         runs-on: ubuntu-latest
@@ -69,8 +81,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-js
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cra_react18_ts:
         runs-on: ubuntu-latest
@@ -81,8 +95,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-ts
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cra_react18_1_js:
         runs-on: ubuntu-latest
@@ -93,8 +109,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-1-js
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cra_react18_1_ts:
         runs-on: ubuntu-latest
@@ -105,8 +123,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-1-ts
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cra_react18_2_js:
         runs-on: ubuntu-latest
@@ -117,8 +137,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-2-js
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cra_react18_2_ts:
         runs-on: ubuntu-latest
@@ -129,8 +151,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/cra-react18-2-ts
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     nextjs12:
         runs-on: ubuntu-latest
@@ -140,13 +164,17 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 16.x
+                  registry-url: https://npm.pkg.github.com
+                  scope: '@piaggiofastforward'
             - run: git clone https://github.com/mmomtchev/rlayers-npm-tests.git
             - name: Run bundler
               run: |
                   cd rlayers-npm-tests/next12
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     nextjs13:
         runs-on: ubuntu-latest
@@ -157,8 +185,10 @@ jobs:
               run: |
                   cd rlayers-npm-tests/next13
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     nextjs13-esm:
         runs-on: ubuntu-latest
@@ -169,5 +199,7 @@ jobs:
               run: |
                   cd rlayers-npm-tests/next13-esm
                   npm install
-                  npm i rlayers@${{ github.event.inputs.version }} ol@9.2.2
+                  npm i rlayers@npm:@piaggiofastforward/rlayers@${{ github.event.inputs.version }} ol@9.2.2
                   npm run build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
