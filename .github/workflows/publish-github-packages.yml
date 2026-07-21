@@ -21,6 +21,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 20.x
+                  cache: yarn
                   registry-url: https://npm.pkg.github.com
                   scope: '@piaggiofastforward'
             - name: Resolve package tag
@@ -42,10 +43,12 @@ jobs:
                   fi
             - name: Install dependencies
               if: steps.tag.outputs.created == 'true'
-              run: npm ci
+              run: |
+                  corepack enable
+                  yarn install --frozen-lockfile
             - name: Build library
               if: steps.tag.outputs.created == 'true'
-              run: npm run build:lib
+              run: yarn build:lib
             - name: Publish package
               if: steps.tag.outputs.created == 'true'
               run: npm publish
