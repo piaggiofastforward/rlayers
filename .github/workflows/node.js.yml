@@ -62,7 +62,7 @@ jobs:
             - run: |
                   npm i react@16.8 react-dom@16.8 react-test-renderer@16.8 @types/react@16 @types/react-dom@16 @testing-library/react@11
             - run: npm i
-            - run: tsc
+            - run: npx tsc
             - run: npm test
             - run: npm run build:examples
 
@@ -79,7 +79,7 @@ jobs:
             - run: |
                   npm i react@16.14 react-dom@16.14 react-test-renderer@16.14 @types/react@16 @types/react-dom@16 @testing-library/react@11
             - run: npm i
-            - run: tsc
+            - run: npx tsc
             - run: npm test
             - run: npm run build:examples
 
@@ -96,7 +96,7 @@ jobs:
             - run: |
                   npm i react@17 react-dom@17 react-test-renderer@17 @types/react@17 @types/react-dom@17 @testing-library/react@11
             - run: npm i
-            - run: tsc
+            - run: npx tsc
             - run: npm test
             - run: npm run build:examples
 
@@ -113,7 +113,7 @@ jobs:
             - run: |
                   npm i react@18 react-dom@18 react-test-renderer@18 @types/react@18 @types/react-dom@18 @testing-library/react@13
             - run: npm i
-            - run: tsc
+            - run: npx tsc
             - run: npm test
             - run: npm run build:examples
 
@@ -130,7 +130,7 @@ jobs:
             - run: |
                   npm i react@18.1 react-dom@18.1 react-test-renderer@18.1 @types/react@18 @types/react-dom@18 @testing-library/react@13
             - run: npm i
-            - run: tsc
+            - run: npx tsc
             - run: npm test
             - run: npm run build:examples
 
@@ -147,7 +147,7 @@ jobs:
             - run: |
                   npm i react@18.2 react-dom@18.2 react-test-renderer@18.2 @types/react@18 @types/react-dom@18 @testing-library/react@13
             - run: npm i
-            - run: tsc
+            - run: npx tsc
             - run: npm test
             - run: npm run build:examples
 
@@ -164,7 +164,7 @@ jobs:
             - run: |
                   npm i react@18.3.1 react-dom@18.3.1 react-test-renderer@18.3.1 @types/react@18.3.2 @types/react-dom@18.0.5 @testing-library/react@15.0.7
             - run: npm i
-            - run: tsc
+            - run: npx tsc
             - run: npm test
             - run: npm run build:examples
 
