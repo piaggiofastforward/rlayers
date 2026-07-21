@@ -67,7 +67,7 @@
         "preversion": "npm run test",
         "version": "npm run clean && npm run build && git add package.json",
         "postversion": "git push && git push --tags && npm run doc:publish",
-        "postpublish": "gh workflow run test-npm.yml -F version=$npm_package_version"
+        "postpublish": "echo \"Skipping npm test workflows\""
     },
     "publishConfig": {
         "registry": "https://npm.pkg.github.com",
