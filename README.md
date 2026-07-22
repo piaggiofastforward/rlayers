@@ -42,7 +42,7 @@ It offers the full power _OpenLayers_ - dynamic reprojections, comprehensive eve
 ## Installation
 
 ```bash
-npm --save install rlayers ol react react-dom
+npm --save install @piaggiofastforward/rlayers ol react react-dom
 ```
 
 ### Compatibility Matrix
