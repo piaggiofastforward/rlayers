@@ -1,5 +1,5 @@
 {
-    "name": "@piaggiofastforward/rlayers",
+    "name": "rlayers",
     "version": "2.3.2",
     "description": "React Components for OpenLayers",
     "main": "index.js",
@@ -67,17 +67,13 @@
         "preversion": "npm run test",
         "version": "npm run clean && npm run build && git add package.json",
         "postversion": "git push && git push --tags && npm run doc:publish",
-        "postpublish": "echo \"Skipping npm test workflows\""
-    },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com",
-        "access": "restricted"
+        "postpublish": "gh workflow run test-npm.yml -F version=$npm_package_version"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/piaggiofastforward/rlayers.git"
+        "url": "git+https://github.com/mmomtchev/rlayers.git"
     },
-    "homepage": "https://github.com/piaggiofastforward/rlayers",
+    "homepage": "https://mmomtchev.github.io/rlayers/",
     "keywords": [
         "react",
         "maps",
@@ -91,7 +87,7 @@
     "author": "Momtchil Momtchev <momtchil@momtchev.com>",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/piaggiofastforward/rlayers/issues"
+        "url": "https://github.com/mmomtchev/rlayers/issues"
     },
     "dependencies": {
         "lru-cache": "^10.2.0"
